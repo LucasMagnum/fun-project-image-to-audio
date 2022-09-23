@@ -7,69 +7,41 @@
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <h1>Image to Audio</h1>
-    <input type="file" id="uploadedFile">
-    <p></p>
-    <img id="preview">
-    <div id="info">
-        <i>File Info:</i>
-        <p><strong>Image Name:</strong> <span class="img-name">be-happy.jpg</span></p>
-        <p><strong>Image Type:</strong><span class="img-type">image/jpeg</span></p>
-        <p><strong>Image Size:</strong><span class="img-size">116019bytes</span></p>
-    </div>
+    <br />
+    <!-- Upload  -->
+    <form id="file-upload-form" class="uploader">
+      <input id="file-upload" type="file" accept="image/*" />
 
-    <script type="application/javascript">
-      const img = document.getElementById("imgInp");
-      let info = document.getElementById("info");
-      let errorMessage = document.getElementById("errorMessage");
-      const imagePreview = document.getElementById("preview");
+      <label for="file-upload" id="file-drag">
+        <img id="file-image-preview" src="#" alt="Preview" class="hidden">
 
-      img.addEventListener("change", (e) => {
-        const imgDetails = document.querySelector("input[type=file]").files[0];
-        if (imgDetails) {
-            info.style.display = "block";
-            document.querySelector(".img-name").innerText = imgDetails.name;
-            document.querySelector(".img-type").innerText = imgDetails.type;
-            document.querySelector(".img-size").innerText = imgDetails.size + "bytes";
-            previewImage(imgDetails);
-        } else {
-          imagePreview.src = ""
-          errorMessage.innerText = "Please select a picture";
-          console.error("Please select a picture");
-          info.style.display = "none";
-        }
+        <div id="start">
+          <i class="fa fa-download" aria-hidden="true"></i>
+          <div>Select a file or drag here</div>
+          <div id="notimage" class="hidden">Please select an image</div>
+        </div>
 
-      })
+        <div id="response" class="hidden">
+          <div id="messages"></div>
+        </div>
+      </label>
 
-      function previewImage(imgD) {
-        const reader = new FileReader();
+      <div id="progress" class="hidden">
+        <progress class="progress" id="file-progress" value="0">
+          <span>0</span>%
+        </progress>
+      </div>
+      <button type="button" id="play-button" class="btn" disabled="true">Play</button>
 
-        // PREVIEW
-        reader.addEventListener("load", function () {
-            imagePreview.src = reader.result;
-        })
+    </form>
 
-      // CHECK IF THERE IS SELECTION
-      if (imgD) {
-          // CHECK IF THE FILE IS AN IMAGE
-          if (imgD.type === "image/jpeg" || imgD.type == "image/jpg" || imgD.type == "image/gif" || imgD.type == "image/png") {
-              errorMessage.innerText = "";
-
-              // CONVERTS FILE TO BASE 64
-              reader.readAsDataURL(imgD);
-          } else {
-              errorMessage.innerText = "File type should be an image"
-              imagePreview.src = "";
-          }
-      }
-          // IF NO IMAGE
-          else {
-              imagePreview.src = ""
-              errorMessage.innerText = "Please select a picture";
-          }
-      }
-    </script>
+    <script src="audio.js"></script>
+    <script src="image.js"></script>
+    <script src="ui_events.js"></script>
   </body>
 </html>
