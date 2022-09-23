@@ -1,28 +1,45 @@
 (() => {
-  let playingOscillator;
+  let playingChannels;
 
   const fileSelect = document.getElementById("file-upload");
   const fileDrag = document.getElementById("file-drag");
   const imagePreview = document.getElementById("file-image-preview");
 
-  const playButton = document.getElementById("play-button");
+  const secondsSelector = document.getElementById("seconds-selector");
+  const samplesSelector = document.getElementById("samples-selector");
 
   fileSelect.addEventListener("change", fileSelectHandler, false);
   fileDrag.addEventListener("dragover", fileDragHover, false);
   fileDrag.addEventListener("dragleave", fileDragHover, false);
   fileDrag.addEventListener("drop", fileSelectHandler, false);
 
+  const playButton = document.getElementById("play-button");
   playButton.addEventListener(
     "click",
     () => {
-      if (playingOscillator) {
-        clearOscillator(playingOscillator);
+      if (playingChannels) {
+        clearChannels(...playingChannels);
       }
 
-      playingOscillator = playSong(imagePreview);
+      playingChannels = playSong(imagePreview, parseInt(secondsSelector.value), parseInt(samplesSelector.value));
     },
     false
   );
+
+  const secondsOutput = document.getElementById("seconds-output");
+  const samplesOutput = document.getElementById("samples-output");
+
+  secondsOutput.innerHTML = secondsSelector.value;
+  samplesOutput.innerHTML = samplesSelector.value;
+
+  secondsSelector.oninput = function() {
+    secondsOutput.innerHTML = this.value;
+  }
+
+  samplesSelector.oninput = function() {
+    samplesOutput.innerHTML = this.value;
+  }
+
 })();
 
 function fileDragHover(e) {

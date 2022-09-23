@@ -1,4 +1,4 @@
-const getSampleValueGenerator = function* (imageField, numberOfSamples) {
+const getRGBAMedianSampleValueGenerator = function* (imageField, numberOfSamples) {
   const imageData = getImageData(imageField);
   const rgbaMedian = getRGBAMedianForEveryPixel(imageData);
 
@@ -6,6 +6,23 @@ const getSampleValueGenerator = function* (imageField, numberOfSamples) {
 
   for (let i = 0; i < rgbaMedian.length; i += increaseStep) {
     yield rgbaMedian[Math.round(i)];
+  }
+};
+
+const getRGBASampleValueGenerator = function* (imageField, numberOfSamples, valueType) {
+  /* Return a sample generator for a valueType e.g. one of the RGBA options */
+  const valueTypes = {
+    "R": 0,
+    "G": 1,
+    "B": 2,
+    "A": 3
+  }
+
+  const imageData = getImageData(imageField);
+  const increaseStep = imageData.length / numberOfSamples;
+
+  for (let i = 0; i < imageData.length; i += increaseStep) {
+    yield imageData[Math.round(i) + valueTypes[valueType]];
   }
 };
 

@@ -31,11 +31,17 @@
         </div>
       </label>
 
-      <div id="progress" class="hidden">
-        <progress class="progress" id="file-progress" value="0">
-          <span>0</span>%
-        </progress>
+      <div class="slidecontainer">
+        <input type="range" min="1" max="20" value="5" id="samples-selector">
       </div>
+      <p>Samples per second: <small id="samples-output"></small></p>
+
+      <div class="slidecontainer">
+        <input type="range" min="1" max="60" value="15" id="seconds-selector">
+      </div>
+      <p>Play time (seconds): <small id="seconds-output"></small></p>
+
+
       <button type="button" id="play-button" class="btn" disabled="true">Play</button>
 
     </form>
@@ -43,5 +49,6 @@
     <script src="audio.js"></script>
     <script src="image.js"></script>
     <script src="ui_events.js"></script>
+
   </body>
 </html>
